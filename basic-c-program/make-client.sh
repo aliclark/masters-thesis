@@ -11,7 +11,6 @@ cc \
     $proto_quic_src/out/Debug/obj/net/libsimple_quic_tools.a \
     $proto_quic_src/out/Debug/obj/net/libnet.a \
     \
-    $proto_quic_src/out/Debug/obj/net/libbalsa.a \
     $proto_quic_src/out/Debug/obj/crypto/libcrcrypto.a \
     $proto_quic_src/out/Debug/obj/base/libbase.a \
     $proto_quic_src/out/Debug/obj/base/libbase_static.a \
