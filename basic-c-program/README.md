@@ -14,6 +14,13 @@ Current status
  * Can link the QUIC libraries into a C program and call the QUIC demo
    code.
 
+TODO
+----
+
+ * Create the event_base instance from C and pass it into QUIC
+
+ * Modify server and client to allow streaming
+
 Lessons learned
 ---------------
 
