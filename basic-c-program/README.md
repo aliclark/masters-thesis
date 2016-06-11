@@ -61,6 +61,10 @@ cd masters-thesis/basic-c-program/
 cd certs
 ./generate-certs.sh
 cd ..
+
+./make-server.sh
+./make-client.sh
+
 ./build/test_server --v=1 --quic_in_memory_cache_dir=www.example.org --certificate_file=certs/out/leaf_cert.pem --key_file=certs/out/leaf_cert.pkcs8
 
 # This will fail, since the root certificate is not installed yet...
