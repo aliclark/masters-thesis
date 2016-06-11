@@ -17,19 +17,19 @@ Current status
 Lessons learned
 ---------------
 
- * net/tools/quic/quic_simple_{client,server}_bin.cc uses a libevent
-   instance, while net/tools/quic/quic_{client,server}_bin.cc is the
+ * `net/tools/quic/quic_simple_{client,server}_bin.cc` uses a libevent
+   instance, while `net/tools/quic/quic_{client,server}_bin.cc` is the
    epoll variant
 
- * For the simple variant, trying to use -levent causes a currently
+ * For the simple variant, trying to use `-levent` causes a currently
    uninvestigated runtime issue. Instead
-   third_party/libevent/libevent.a must be used.
+   `third_party/libevent/libevent.a` must be used.
 
  * The epoll variant only uses libevent for epoll shim functions, so
-   can use -levent (or probably just copying the shim code).
+   can use `-levent` (or probably just copying the shim code).
 
  * For now, my plan is to try to initialise the simple variant using
-   the event_base from the C program. A better approach in future
+   an event_base from the C programs. A better approach in future
    might be to use epoll variant (probably more performant) in its own
    thread, and some mechanism to pass data to and from it.
 
@@ -73,9 +73,9 @@ cd ..
 # Nb. the test_server command above will have auto-created ~/.pki/nssdb if it didn't exist yet
 certutil -d sql:$HOME/.pki/nssdb -A -t "C,," -n QUIC-TEST-3DAYS-$(date +%Y%m%d) -i certs/out/2048-sha256-root.pem
 
-# restart test_server...
+# Restart test_server...
 ./build/test_server --v=1 --quic_in_memory_cache_dir=www.example.org --certificate_file=certs/out/leaf_cert.pem --key_file=certs/out/leaf_cert.pkcs8
 
-# Should work this time, since the root certificate is not installed yet...
+# Should work this time
 ./build/test_client --host=127.0.0.1 --port=6121 https://www.example.org/
 ```
