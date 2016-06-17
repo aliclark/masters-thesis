@@ -43,8 +43,8 @@ WORKDIR /home/shadow/masters-thesis/basic-c-program
 RUN ./make-server.sh
 RUN ./make-client.sh
 
-# Hack, just to initialize ~/.pki properly
-RUN ./build/test_client --host=127.0.0.1 --port=6121 https://www.example.org/ || echo expected ^
+# Hack, just to initialize ~/.pki database properly
+RUN ./build/test_client --host=127.0.0.1 https://www.example.org/ || echo expected ^
 
 # TODO: Should probably regenerate certs each run using CMD?
 RUN certutil -d sql:$HOME/.pki/nssdb -A -t "C,," -n QUIC-TEST-3DAYS-$(date +%Y%m%d) -i certs/out/2048-sha256-root.pem
