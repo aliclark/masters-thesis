@@ -54,9 +54,9 @@ Feel free to submit an issue on this project if anything here doesn't work
 
 ```sh
 # fedora:
-sudo dnf     install git curl findutils gcc-c++ glib2-devel    nss-tools
+sudo dnf     install git curl tar findutils gcc-c++ glib2-devel    nss-tools
 # debian:
-sudo apt-get install git curl findutils g++     libglib2.0-dev libnss3-tools pkg-config
+sudo apt-get install git curl tar findutils g++     libglib2.0-dev libnss3-tools pkg-config
 
 git clone https://github.com/aliclark/masters-thesis
 git clone https://github.com/aliclark/proto-quic
