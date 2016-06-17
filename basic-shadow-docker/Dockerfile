@@ -50,5 +50,5 @@ RUN ./build/test_client --host=127.0.0.1 --port=6121 https://www.example.org/ ||
 RUN certutil -d sql:$HOME/.pki/nssdb -A -t "C,," -n QUIC-TEST-3DAYS-$(date +%Y%m%d) -i certs/out/2048-sha256-root.pem
 
 WORKDIR /home/shadow/shadow-plugin-extras
-ENTRYPOINT ["/home/shadow/.shadow/bin/shadow"]
-CMD ["/home/shadow/shadow-plugin-extras/quux/example.xml"]
+ENTRYPOINT ["shadow"]
+CMD ["quux/example.xml"]
