@@ -11,7 +11,7 @@ RUN git clone https://github.com/shadow/shadow.git -b release
 WORKDIR /home/shadow/shadow
 RUN ./setup build
 RUN ./setup install
-RUN echo 'export PATH=$PATH:$HOME/.shadow/bin' >>$HOME/.bashrc
+ENV PATH $PATH:/home/shadow/.shadow/bin
 
 WORKDIR /home/shadow
 RUN git clone https://github.com/aliclark/shadow-plugin-extras
@@ -21,6 +21,34 @@ WORKDIR /home/shadow/shadow-plugin-extras/build
 RUN CC=/usr/bin/clang CXX=/usr/bin/clang++ cmake ..
 RUN make install
 
+USER root
+RUN dnf install -y tar findutils openssl
+USER shadow
+
 WORKDIR /home/shadow
+RUN git clone https://github.com/aliclark/proto-quic
+ENV PATH $PATH:/home/shadow/proto-quic/depot_tools
+
+WORKDIR /home/shadow/proto-quic/src/
+RUN gclient runhooks
+RUN ninja -C out/Debug quic_server quic_client
+
+WORKDIR /home/shadow
+RUN git clone https://github.com/aliclark/masters-thesis
+
+WORKDIR /home/shadow/masters-thesis/basic-c-program/certs
+RUN ./generate-certs.sh
+
+WORKDIR /home/shadow/masters-thesis/basic-c-program
+RUN ./make-server.sh
+RUN ./make-client.sh
+
+# Hack, just to initialize ~/.pki properly
+RUN ./build/test_client --host=127.0.0.1 --port=6121 https://www.example.org/ || echo expected ^
+
+# TODO: Should probably regenerate certs each run using CMD?
+RUN certutil -d sql:$HOME/.pki/nssdb -A -t "C,," -n QUIC-TEST-3DAYS-$(date +%Y%m%d) -i certs/out/2048-sha256-root.pem
+
+WORKDIR /home/shadow/shadow-plugin-extras
 ENTRYPOINT ["/home/shadow/.shadow/bin/shadow"]
 CMD ["/home/shadow/shadow-plugin-extras/quux/example.xml"]

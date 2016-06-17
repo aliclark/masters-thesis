@@ -11,6 +11,8 @@ Current status
 
  * Can run the hello-world Shadow plugin
 
+ * Container compiles and installs the QUIC demo code
+
 TODO
 ----
 
