@@ -53,10 +53,13 @@ Build and Run
 Feel free to submit an issue on this project if anything here doesn't work
 
 ```sh
-# install git curl g++ pkg-config libglib2.0-dev libnss3-tools
+# fedora:
+sudo dnf     install git curl findutils gcc-c++ glib2-devel    nss-tools
+# debian:
+sudo apt-get install git curl findutils g++     libglib2.0-dev libnss3-tools pkg-config
 
-git clone https://github.com/aliclark/proto-quic
 git clone https://github.com/aliclark/masters-thesis
+git clone https://github.com/aliclark/proto-quic
 
 export PATH=$PATH:$(pwd)/proto-quic/depot_tools
 cd proto-quic/src/
@@ -79,9 +82,6 @@ cd ..
 
 # Nb. the test_server command above will have auto-created ~/.pki/nssdb if it didn't exist yet
 certutil -d sql:$HOME/.pki/nssdb -A -t "C,," -n QUIC-TEST-3DAYS-$(date +%Y%m%d) -i certs/out/2048-sha256-root.pem
-
-# Restart test_server...
-./build/test_server --v=1 --quic_in_memory_cache_dir=www.example.org --certificate_file=certs/out/leaf_cert.pem --key_file=certs/out/leaf_cert.pkcs8
 
 # Should work this time
 ./build/test_client --host=127.0.0.1 --port=6121 https://www.example.org/
