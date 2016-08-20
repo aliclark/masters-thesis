@@ -25,7 +25,8 @@ RUN tar xaf openssl-1.0.1h.tar.gz
 WORKDIR /home/shadow/shadow-plugin-tor/build/openssl-1.0.1h
 RUN ./config --prefix=/home/shadow/.shadow shared threads enable-ec_nistp_64_gcc_128 -fPIC
 RUN make depend
-RUN make -j $(nproc) install_sw
+RUN make -j $(nproc)
+RUN make install_sw
 
 WORKDIR /home/shadow/shadow-plugin-tor/build
 RUN curl -O https://cloud.github.com/downloads/libevent/libevent/libevent-2.0.21-stable.tar.gz
