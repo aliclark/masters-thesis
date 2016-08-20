@@ -1,7 +1,6 @@
 FROM fedora:22
 
-#RUN dnf install -y git clang cmake make gcc-c++ xz igraph-devel glib2-devel llvm-devel file
-RUN dnf install -y git clang cmake make llvm-devel patch automake
+RUN dnf install -y git clang cmake make gcc-c++ xz igraph-devel glib2-devel llvm-devel file tar automake
 
 RUN useradd shadow
 USER shadow
@@ -30,7 +29,7 @@ RUN make
 RUN make install_sw
 
 WORKDIR /home/shadow/shadow-plugin-tor/build
-RUN curl -O https://github.com/downloads/libevent/libevent/libevent-2.0.21-stable.tar.gz
+RUN curl -O https://cloud.github.com/downloads/libevent/libevent/libevent-2.0.21-stable.tar.gz
 RUN echo 22a530a8a5ba1cb9c080cba033206b17dacd21437762155c6d30ee6469f574f5 libevent-2.0.21-stable.tar.gz | sha256sum -c --strict
 RUN tar xaf libevent-2.0.21-stable.tar.gz
 WORKDIR /home/shadow/shadow-plugin-tor/build/libevent-2.0.21-stable
