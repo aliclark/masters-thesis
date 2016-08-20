@@ -1,6 +1,6 @@
 FROM fedora:22
 
-RUN dnf install -y git clang cmake make gcc-c++ xz igraph-devel glib2-devel llvm-devel file tar automake
+RUN dnf install -y git clang cmake make gcc-c++ xz igraph-devel glib2-devel llvm-devel file tar automake golang zlib-devel
 
 RUN useradd shadow
 USER shadow
@@ -25,26 +25,15 @@ RUN tar xaf openssl-1.0.1h.tar.gz
 WORKDIR /home/shadow/shadow-plugin-tor/build/openssl-1.0.1h
 RUN ./config --prefix=/home/shadow/.shadow shared threads enable-ec_nistp_64_gcc_128 -fPIC
 RUN make depend
-RUN make
-RUN make install_sw
+RUN make -j $(nproc) install_sw
 
 WORKDIR /home/shadow/shadow-plugin-tor/build
 RUN curl -O https://cloud.github.com/downloads/libevent/libevent/libevent-2.0.21-stable.tar.gz
 RUN echo 22a530a8a5ba1cb9c080cba033206b17dacd21437762155c6d30ee6469f574f5 libevent-2.0.21-stable.tar.gz | sha256sum -c --strict
 RUN tar xaf libevent-2.0.21-stable.tar.gz
 WORKDIR /home/shadow/shadow-plugin-tor/build/libevent-2.0.21-stable
-
-# -I/home/${USER}/.shadow" LDFLAGS="-L/home/${USER}/.shadow"
-
-RUN ./configure --prefix=/home/shadow/.shadow --enable-shared CFLAGS="-fPIC"
-RUN make
-RUN make install
-
-USER root
-RUN dnf install -y golang
-# libatomic is for compilation using clang
-#libatomic
-USER shadow
+RUN ./configure --prefix=/home/shadow/.shadow
+RUN make -j $(nproc) install
 
 WORKDIR /home/shadow/shadow-plugin-tor/build
 RUN git clone https://github.com/aliclark/libquic
@@ -58,28 +47,29 @@ RUN git clone https://github.com/aliclark/tor
 WORKDIR /home/shadow/shadow-plugin-tor/build/tor
 RUN ./autogen.sh
 RUN ./configure --disable-transparent --disable-asciidoc CFLAGS="-fPIC -fno-inline -I../libquic/src/quux" --with-libevent-dir=`readlink -f ~`/.shadow --with-openssl-dir=`readlink -f ~`/.shadow
-RUN make -j $(nproc) # will fail to link quux due to hard-coded static lib path, but doesn't matter here
+RUN make -j $(nproc) || echo "will fail to link quux due to hard-coded static lib path, but doesn't matter here"
 
 RUN mkdir /home/shadow/shadow-plugin-tor/build/main
 WORKDIR /home/shadow/shadow-plugin-tor/build/main
 RUN CC=/usr/bin/clang CXX=/usr/bin/clang++ cmake ../.. -DTOR_VERSION_A=0 -DTOR_VERSION_B=2 -DTOR_VERSION_C=7 -DTOR_VERSION_D=6
 RUN make -j $(nproc) install
 
+WORKDIR /home/shadow/shadow-plugin-tor/resource
+#RUN tar -xf shadowtor-minimal-config.tar.xz
+RUN tar -xf shadowtor-toy-config.tar.xz
 
+# TODO: Disable logging in the torrc files first?
 
-# For plot-shadow: dnf install python-matplotlib
+#WORKDIR /home/shadow/shadow-plugin-tor/resource/shadowtor-minimal-config
+WORKDIR /home/shadow/shadow-plugin-tor/resource/shadowtor-toy-config
 
-
-
-
-# Set it up for a default exec
-
+# XXX: useful for 'su' to root
 USER root
 RUN dnf install -y passwd
 RUN passwd -d root
 USER shadow
 
-WORKDIR /home/shadow/shadow-plugin-tor
+ENTRYPOINT ["shadow-tor", "-y"]
+CMD [""]
 
-#ENTRYPOINT ["shadow-tor", "-i"]
-#CMD ["quux/example.xml"]
+# For plot-shadow: dnf install python-matplotlib
