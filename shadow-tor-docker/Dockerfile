@@ -65,6 +65,6 @@ RUN tar -xf shadowtor-minimal-config.tar.xz
 WORKDIR /home/shadow/shadow-plugin-tor/resource/shadowtor-minimal-config
 
 ENTRYPOINT ["shadow-tor", "-y"]
-CMD [""]
 
-# TODO: pass out shadow.data and shadow.log
+# TODO: pass out shadow.data and shadow.log (as a tar.gz on stdout?)
+# Or copy onto a volume?
