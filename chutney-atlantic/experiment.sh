@@ -38,5 +38,6 @@ CHUTNEY_DATA_BYTES=67108864 ./chutney verify networks/$network
 
 # TODO: put these in a trap exit
 ssh root@$NEWARK "cd chutney; ./chutney stop networks/$network; killall -9 tor || true"
+tc qdisc del dev eth0 root netem || true
 ./chutney stop networks/$network
 killall -9 tor || true
