@@ -19,7 +19,7 @@ RUN git clone https://github.com/aliclark/shadow-plugin-extras
 RUN mkdir $HOME/shadow-plugin-extras/build
 WORKDIR /home/shadow/shadow-plugin-extras/build
 RUN CC=/usr/bin/clang CXX=/usr/bin/clang++ cmake ..
-RUN make install
+RUN make -j $(nproc) install
 
 USER root
 RUN dnf install -y tar findutils openssl
