@@ -57,7 +57,8 @@ RUN make -j $(nproc) install
 
 WORKDIR /home/shadow/shadow-plugin-tor/resource
 RUN tar -xf shadowtor-minimal-config.tar.xz
-# Runs out of memory
+# Uses up 24G memory after 50m simulation time, ~10h on 8 cores
+# Probably possible to do 60m simulation time with 32G
 #RUN tar -xf shadowtor-toy-config.tar.xz
 
 # TODO: Disable logging in the torrc files first?
