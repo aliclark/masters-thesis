@@ -56,21 +56,13 @@ RUN CC=/usr/bin/clang CXX=/usr/bin/clang++ cmake ../.. -DTOR_VERSION_A=0 -DTOR_V
 RUN make -j $(nproc) install
 
 WORKDIR /home/shadow/shadow-plugin-tor/resource
-#RUN tar -xf shadowtor-minimal-config.tar.xz
-RUN tar -xf shadowtor-toy-config.tar.xz
+RUN tar -xf shadowtor-minimal-config.tar.xz
+# Runs out of memory
+#RUN tar -xf shadowtor-toy-config.tar.xz
 
 # TODO: Disable logging in the torrc files first?
 
-#WORKDIR /home/shadow/shadow-plugin-tor/resource/shadowtor-minimal-config
-WORKDIR /home/shadow/shadow-plugin-tor/resource/shadowtor-toy-config
-
-# XXX: useful for 'su' to root
-USER root
-RUN dnf install -y passwd
-RUN passwd -d root
-USER shadow
+WORKDIR /home/shadow/shadow-plugin-tor/resource/shadowtor-minimal-config
 
 ENTRYPOINT ["shadow-tor", "-y"]
 CMD [""]
-
-# For plot-shadow: dnf install python-matplotlib
