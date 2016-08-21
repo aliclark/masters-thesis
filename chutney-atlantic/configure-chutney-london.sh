@@ -7,7 +7,8 @@ network=$1
 
 killall -9 tor || true
 
-cd chutney
+cd $HOME/chutney
+
 CHUTNEY_LISTEN_ADDRESS=$(dig +short myip.opendns.com @resolver1.opendns.com) CHUTNEY_TOR_GENCERT=/root/tor-0.2.7.6/src/tools/tor-gencert CHUTNEY_TOR=/root/tor-0.2.7.6/src/or/tor ./chutney configure networks/$network
 sed -i 's/^Log/#Log/' net/nodes/*/torrc
 
