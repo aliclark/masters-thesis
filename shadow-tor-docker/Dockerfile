@@ -66,3 +66,5 @@ WORKDIR /home/shadow/shadow-plugin-tor/resource/shadowtor-minimal-config
 
 ENTRYPOINT ["shadow-tor", "-y"]
 CMD [""]
+
+# TODO: pass out shadow.data and shadow.log
