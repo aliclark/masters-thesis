@@ -33,8 +33,14 @@ if [ "$loss" ]; then
     tc qdisc add dev eth0 root netem loss $loss
 fi
 
+# clear network stats
+nstat -r >/dev/null
+
 # 64 MiB
 CHUTNEY_DATA_BYTES=67108864 ./chutney verify networks/$network
+
+# dump network stats difference
+nstat
 
 # TODO: put these in a trap exit
 ssh root@$NEWARK "cd chutney; ./chutney stop networks/$network; killall -9 tor || true"
