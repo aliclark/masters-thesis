@@ -29,7 +29,8 @@ sleep 15
 ./chutney verify networks/$network
 
 # packet loss
-if [[ "$loss" && "$loss" != "0.000000%" ]]; then
+
+if [[ "$loss" && "$loss" != "0" && "$loss" != "0%" && "$loss" != "0.0%" && "$loss" != "0.000000%" ]]; then
     tc qdisc add dev eth0 root netem loss $loss
 fi
 
