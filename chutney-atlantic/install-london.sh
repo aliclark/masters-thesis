@@ -20,7 +20,6 @@ ip6tables -P FORWARD DROP
 iptables -F INPUT
 iptables -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 iptables -A INPUT -i lo -j ACCEPT
-iptables -A INPUT -p tcp --dport 5125 -j ACCEPT
 iptables -A INPUT -s $NEWARK -j ACCEPT
 iptables -P INPUT DROP
 iptables -P FORWARD DROP
