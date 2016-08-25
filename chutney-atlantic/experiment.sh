@@ -43,8 +43,13 @@ CHUTNEY_DATA_BYTES=67108864 ./chutney verify networks/$network
 # dump network stats difference
 nstat
 
+# get a rough feel for how cpu intensive it was
+uptime
+
 # TODO: put these in a trap exit
 ssh root@$NEWARK "cd chutney; ./chutney stop networks/$network; killall -9 tor || true"
 tc qdisc del dev eth0 root netem || true
 ./chutney stop networks/$network
 killall -9 tor || true
+
+echo fin
