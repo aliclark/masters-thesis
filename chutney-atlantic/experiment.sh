@@ -23,7 +23,7 @@ tc qdisc del dev eth0 root netem || true
 CHUTNEY_TOR=/root/$branch/src/or/tor ./chutney start networks/$network
 
 # minimum sleep before anything useful could happen
-sleep 15
+sleep 35
 
 # just one run to set up a circuit
 ./chutney verify networks/$network
