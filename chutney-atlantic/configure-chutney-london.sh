@@ -19,7 +19,7 @@ sed -i 's/^Log/#Log/' net/nodes/*/torrc
 guardip=''
 while read line; do
   if [ ! "$guardip" ]; then
-    guardip=$(grep -E '^DirAuthority ' net/nodes/000*/torrc | awk '{print $7}' | awk -F: '{print $1}')
+    guardip=$(echo $line | awk '{print $7}' | awk -F: '{print $1}')
   fi
   sed -i "s/^$(echo $line | awk '{print $1" "$2}') .*/$line/" net/nodes/*/torrc
 done
