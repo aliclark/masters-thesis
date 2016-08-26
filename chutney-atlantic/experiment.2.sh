@@ -10,7 +10,7 @@ extra=$4
 
 NEWARK=45.79.174.25
 
-echo experiment version: 2 branch: $branch network: $network loss: $loss extra: $extra
+echo experiment version: 3 branch: $branch network: $network loss: $loss extra: $extra
 
 # clear out any cached state from previous runs
 ./configure-hosts.sh $network
