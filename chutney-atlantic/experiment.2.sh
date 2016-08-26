@@ -36,8 +36,8 @@ fi
 # clear network stats
 nstat -r >/dev/null
 
-# 64 MiB
-CHUTNEY_DATA_BYTES=67108864 ./chutney verify networks/$network
+# 32 MiB
+CHUTNEY_DATA_BYTES=33554432 ./chutney verify networks/$network
 
 # dump network stats difference
 nstat
