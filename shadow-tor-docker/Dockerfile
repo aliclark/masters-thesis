@@ -56,14 +56,16 @@ RUN CC=/usr/bin/clang CXX=/usr/bin/clang++ cmake ../.. -DTOR_VERSION_A=0 -DTOR_V
 RUN make -j $(nproc) install
 
 WORKDIR /home/shadow/shadow-plugin-tor/resource
-RUN tar -xf shadowtor-minimal-config.tar.xz
-# Uses up 24G memory after 50m simulation time, ~10h on 8 cores
-# Probably possible to do 60m simulation time with 32G
-#RUN tar -xf shadowtor-toy-config.tar.xz
+
+#RUN tar -xf shadowtor-minimal-config.tar.xz
+
+# Uses over 32G memory (about 35) for 60m simulation
+RUN tar -xf shadowtor-toy-config.tar.xz
 
 # TODO: Disable logging in the torrc files first?
 
-WORKDIR /home/shadow/shadow-plugin-tor/resource/shadowtor-minimal-config
+#WORKDIR /home/shadow/shadow-plugin-tor/resource/shadowtor-minimal-config
+WORKDIR /home/shadow/shadow-plugin-tor/resource/shadowtor-toy-config
 
 #ENTRYPOINT ["shadow-tor", "-y", "-w", "$(expr $(nproc) - 1)"]
 
