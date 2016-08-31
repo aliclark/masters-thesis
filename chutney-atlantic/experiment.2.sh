@@ -29,7 +29,8 @@ sleep 45
 ./chutney verify networks/$network
 
 # packet loss
-if [[ "$loss" && "$loss" != "0" && "$loss" != "0%" && "$loss" != "0.0%" && "$loss" != "0.000000%" ]]; then
+if [[ "$loss" && "$loss" != "0" && "$loss" != "0%" && "$loss" != "0.0%" && "$loss" != "0.000000%" ]];
+then
     ssh root@$NEWARK "tc qdisc add dev eth0 root netem loss $loss"
 fi
 
@@ -46,7 +47,8 @@ nstat
 uptime
 
 # TODO: put these in a trap exit
-ssh root@$NEWARK "tc qdisc del dev eth0 root netem || true; cd chutney; ./chutney stop networks/$network; killall -9 tor || true"
+ssh root@$NEWARK "tc qdisc del dev eth0 root netem || true; \
+	cd chutney; ./chutney stop networks/$network; killall -9 tor || true"
 ./chutney stop networks/$network
 killall -9 tor || true
 
