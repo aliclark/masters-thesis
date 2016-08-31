@@ -57,17 +57,18 @@ RUN make -j $(nproc) install
 
 WORKDIR /home/shadow/shadow-plugin-tor/resource
 
-#RUN tar -xf shadowtor-minimal-config.tar.xz
-
 # Uses over 32G memory (about 35) for 60m simulation
 RUN tar -xf shadowtor-toy-config.tar.xz
+#
+# RUN tar -xf shadowtor-minimal-config.tar.xz
+
+WORKDIR /home/shadow/shadow-plugin-tor/resource/shadowtor-toy-config
+# WORKDIR /home/shadow/shadow-plugin-tor/resource/shadowtor-minimal-config
 
 # TODO: Disable logging in the torrc files first?
 
-#WORKDIR /home/shadow/shadow-plugin-tor/resource/shadowtor-minimal-config
-WORKDIR /home/shadow/shadow-plugin-tor/resource/shadowtor-toy-config
-
-#ENTRYPOINT ["shadow-tor", "-y", "-w", "$(expr $(nproc) - 1)"]
-
 # TODO: pass out shadow.data and shadow.log (as a tar.gz on stdout?)
 # Or copy onto a volume?
+#
+# ENTRYPOINT shadow-tor -y -w $(expr $(nproc) - 1)
+
